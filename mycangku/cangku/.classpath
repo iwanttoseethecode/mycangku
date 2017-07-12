@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry exported="true" kind="lib" path="libs/core.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/eventbus.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/mpchartlib.jar"/>
+	<classpathentry kind="lib" path="libs/nineoldandroids-2.4.0.jar"/>
+	<classpathentry kind="lib" path="libs/rebound-core.jar"/>
+	<classpathentry kind="lib" path="libs/open_sdk_r5756.jar"/>
+	<classpathentry kind="lib" path="libs/mta-sdk-1.6.2.jar"/>
+	<classpathentry kind="lib" path="libs/libammsdk.jar"/>
+	<classpathentry kind="lib" path="libs/sun.misc.BASE64Decoder.jar"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="libs/android-support-v4.jar"/>
+	<classpathentry kind="lib" path="libs/app-monitor-sdk-2.5.1.1_for_bc_proguard.jar"/>
+	<classpathentry kind="lib" path="libs/securityguard.jar"/>
+	<classpathentry kind="lib" path="libs/utdid4all-1.1.5.3_proguard.jar"/>
+	<classpathentry kind="lib" path="libs/umeng_sdk.jar"/>
+	<classpathentry kind="lib" path="libs/jcore-android_v1.1.0.jar"/>
+	<classpathentry kind="lib" path="libs/jpush-android_v3.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/glide-3.6.1.jar"/>
+	<classpathentry kind="lib" path="libs/okhttp-3.6.0.jar"/>
+	<classpathentry kind="lib" path="libs/okio-1.11.0.jar"/>
+	<classpathentry kind="lib" path="libs/ksoap2-android-assembly-3.0.0-jar-with-dependencies.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

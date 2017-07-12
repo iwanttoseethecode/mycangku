@@ -1,0 +1,137 @@
+package com.guantang.cangkuonline.activity;
+
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.guantang.cangkuonline.R;
+import com.guantang.cangkuonline.application.MyApplication;
+import com.guantang.cangkuonline.helper.EditHelper;
+import com.guantang.cangkuonline.shareprefence.ShareprefenceBean;
+import com.guantang.cangkuonline.webservice.WebserviceHelper;
+
+import de.greenrobot.event.EventBus;
+
+public class NewLoginActivity extends Activity implements OnClickListener{
+	
+	private TextView serverTxt;
+	private EditText companyEdit;
+	private AutoCompleteTextView usernameAutoCompleteTextView,passwordAutoCompleteTextView;
+	private Button loginBtn,lixianloginBtn;
+	private LinearLayout tiyanLinearLayout,registerlayout;
+	private SharedPreferences mSharedPreferences;
+	private String[] url_array;
+	private String[] ser_array;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO 自动生成的方法存根
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_newlogin);
+		
+		EventBus.getDefault().register(this);
+		mSharedPreferences = MyApplication.getInstance().getSharedPreferences();
+		initView();
+	}
+	
+	public void initView(){
+		serverTxt=(TextView) findViewById(R.id.serverTxt);
+		companyEdit = (EditText) findViewById(R.id.companyEdit);
+		usernameAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.usernameEdit);
+		passwordAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.passwordEdit);
+		loginBtn = (Button) findViewById(R.id.login);
+		lixianloginBtn = (Button) findViewById(R.id.lixianBtn);
+		tiyanLinearLayout = (LinearLayout) findViewById(R.id.tiyanlayout);
+		registerlayout = (LinearLayout) findViewById(R.id.registerlayout);
+		
+		serverTxt.setOnClickListener(this);
+		loginBtn.setOnClickListener(this);
+		lixianloginBtn.setOnClickListener(this);
+		tiyanLinearLayout.setOnClickListener(this);
+		registerlayout.setOnClickListener(this);
+	}
+	
+	public void init(){
+		serverTxt.setText(mSharedPreferences.getString(
+				ShareprefenceBean.SER_NAME, "官方服务器(上海)"));
+		String serTextString = serverTxt.getText().toString();
+		if (serTextString.equals(mSharedPreferences.getString(ShareprefenceBean.ALONE_SERVICE_NAME, "独立域名用户"))) {// 独立域名用户就设置网址，不是就设置公司
+			companyEdit.setText(mSharedPreferences.getString(ShareprefenceBean.IDN_ALONE_URL, "gd.gtcangku.com"));
+			WebserviceHelper.URL = EditHelper.CheckHttp(url_array[3])
+					+ url_array[3] + "/";
+		} else {
+			for (int i = 0; i < 4; i++) {
+				if (serTextString.equals(ser_array[i])) {
+					WebserviceHelper.URL = EditHelper.CheckHttp(url_array[i])
+							+ url_array[i] + "/";
+					break;
+				}
+			}
+			neturlEditText.setText(mSharedPreferences.getString(
+					ShareprefenceBean.DWNAME_LOGIN, "测试"));
+		}
+		nameAutoCompleteTextView.setText(mSharedPreferences.getString(
+				ShareprefenceBean.USERNAME, "admin"));
+		if (jizhumimaCheckBox.isChecked()) {
+			passwordEditText.setText(mSharedPreferences.getString(
+					ShareprefenceBean.PASSWORD, "admin"));
+		} else {
+			passwordEditText.setText("");
+		}
+
+		WebserviceHelper.loginflag = mSharedPreferences.getInt(
+				ShareprefenceBean.LOGIN_FLAG, 1);
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO 自动生成的方法存根
+		super.onStart();
+		url_array = new String[] {
+				mSharePreferences.getString(ShareprefenceBean.SERVICE_IDN_URL1,
+						"sh.gtcangku.com"),
+				mSharePreferences.getString(ShareprefenceBean.SERVICE_IDN_URL2,
+						"www.gtcangku.com"),
+				mSharePreferences.getString(ShareprefenceBean.SERVICE_IDN_URL3,
+						"www2.gtcangku.com"),
+				mSharePreferences.getString(ShareprefenceBean.IDN_ALONE_URL,
+						"gd.gtcangku.com") };
+
+		ser_array = new String[] {
+				mSharePreferences.getString(ShareprefenceBean.SERVICE_NAME1,
+						"官方服务器(上海)"),
+				mSharePreferences.getString(ShareprefenceBean.SERVICE_NAME2,
+						"官方服务器(广东)"),
+				mSharePreferences.getString(ShareprefenceBean.SERVICE_NAME3,
+						"官方服务器(北京)"),
+				mSharePreferences.getString(
+						ShareprefenceBean.ALONE_SERVICE_NAME, "独立域名用户") };
+		if (registerstartFlagBoolean == false) {// 如果不是注册页面返回
+			init();
+		} else {
+			registerstartFlagBoolean = false;
+		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO 自动生成的方法存根
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		// TODO 自动生成的方法存根
+		
+	}
+}

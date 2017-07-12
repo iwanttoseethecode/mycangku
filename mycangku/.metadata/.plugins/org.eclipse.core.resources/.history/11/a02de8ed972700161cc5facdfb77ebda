@@ -1,0 +1,29 @@
+package com.guantang.cangkuonline.activity;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Window;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.guantang.cangkuonline.R;
+
+public class NewLoginActivity extends Activity {
+	
+	private TextView serverTxt;
+	private EditText companyEdit;
+	private AutoCompleteTextView usernameAutoCompleteTextView,passwordAutoCompleteTextView;
+	private Button loginBtn,lixianloginBtn;
+	private LinearLayout tiyanLinearLayout,registerlayout;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO 自动生成的方法存根
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_newlogin);
+	}
+}

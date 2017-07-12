@@ -1,0 +1,345 @@
+package com.guantang.cangkuonline.activity;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import com.guantang.cangkuonline.R;
+import com.guantang.cangkuonline.TagFlowLayout.FlowLayout;
+import com.guantang.cangkuonline.TagFlowLayout.TagAdapter;
+import com.guantang.cangkuonline.TagFlowLayout.TagFlowLayout;
+import com.guantang.cangkuonline.adapter.MyDJAdapter;
+import com.guantang.cangkuonline.customview.ControlScrollViewPager;
+import com.guantang.cangkuonline.customview.PagerSlidingTabStrip;
+import com.guantang.cangkuonline.database.DataBaseHelper;
+import com.guantang.cangkuonline.database.DataBaseOperateMethod;
+import com.guantang.cangkuonline.fragment.CompletedUpdateDJFragment;
+import com.guantang.cangkuonline.fragment.NoUpdateDJFragment;
+import com.guantang.cangkuonline.fragment.NoUpdateDJFragment.RefreshInterface;
+import com.guantang.cangkuonline.fragment.UnfinishedDJFragment;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+public class LocalDJActivity extends FragmentActivity implements OnClickListener,RefreshInterface{
+	
+	private TextView startTxtView,endTxtView,cangkuTxtView;
+	private ImageButton backImgBtn,searchImgBtn;
+	private PagerSlidingTabStrip mPagerSlidingTabStrip;
+	private ControlScrollViewPager mViewPager;
+	private List<String> titleList = new ArrayList<String>();
+	private List<Fragment> fragmentlist=new ArrayList<Fragment>();
+	private List<Map<String,Object>> DJlist = new ArrayList<Map<String,Object>>();
+	private List<Map<String,Object>> noupdateList = new ArrayList<Map<String,Object>>();
+	private List<Map<String,Object>> completedUpdateList = new ArrayList<Map<String,Object>>();
+	private List<Map<String,Object>> unfinishedList = new ArrayList<Map<String,Object>>();
+	private SimpleDateFormat formatter;
+	private String date1,date2;
+	private DataBaseOperateMethod dm_op = new DataBaseOperateMethod(this);
+	private MyPagerAdapter mMyPagerAdapter;
+	private String[] str1 = { DataBaseHelper.HPM_ID, DataBaseHelper.MVDH,
+			DataBaseHelper.MVDT, DataBaseHelper.Details, DataBaseHelper.mType,
+			DataBaseHelper.Details, DataBaseHelper.JBR, DataBaseHelper.DWName,
+			DataBaseHelper.actType, DataBaseHelper.CKMC,DataBaseHelper.CKID,
+			DataBaseHelper.DepName, DataBaseHelper.Lrr, DataBaseHelper.Lrsj,
+			DataBaseHelper.DJType };
+	private String sql = "";
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO 自动生成的方法存根
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_localdj);
+		initView();
+		init();
+	}
+	
+	public void initView(){
+		backImgBtn = (ImageButton) findViewById(R.id.back);
+		searchImgBtn = (ImageButton) findViewById(R.id.search);
+		mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.pagerTabStrip1);
+		mViewPager = (ControlScrollViewPager) findViewById(R.id.viewpagercontent1);
+		startTxtView = (TextView) findViewById(R.id.startTxtView);
+		endTxtView = (TextView) findViewById(R.id.endtimeTxtView);
+		cangkuTxtView = (TextView) findViewById(R.id.cangkuTxtView);
+		
+		mViewPager.setScrollable(false);
+		
+		backImgBtn.setOnClickListener(this);
+		searchImgBtn.setOnClickListener(this);
+
+	}
+	
+	public void init(){
+		titleList.add("未上传");
+		titleList.add("已上传");
+		titleList.add("未完成");
+		
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String date = formatter.format(new Date(System.currentTimeMillis()));
+		date1 = date;
+		date2 = date;
+		
+		Intent intent = getIntent();
+		if(intent.getBooleanExtra("todayDJ", false)){
+			if(intent.getIntExtra("todayop_type", 1)==1){
+				sql = " where  " + DataBaseHelper.MVDT + "='"
+						+ date  + "' and "+DataBaseHelper.mType+"='1' and "+DataBaseHelper.HPM_ID+"="+intent.getIntExtra("ckid", -1)+" order by lrsj desc ";
+				DJlist = dm_op.search_DJ(sql, str1);
+				
+//				conditionList.clear();
+//				conditionList.add(date1 + "至" + date2);
+//				conditionList.add("仓库:不限");
+//				conditionList.add("入库单据");
+				
+				startTxtView.setText(date1);
+				endTxtView.setText(date2);
+				cangkuTxtView.setText("不限");
+				
+			}else if(intent.getIntExtra("todayop_type", 1)==2){
+				sql = " where  " + DataBaseHelper.MVDT + "='"
+						+ date + "' and "+DataBaseHelper.mType+"='2' and "+DataBaseHelper.HPM_ID+"="+intent.getIntExtra("ckid", -1)+" order by lrsj desc ";
+				DJlist = dm_op.search_DJ(sql, str1);
+//				conditionList.clear();
+//				conditionList.add(date1 + "至" + date2);
+//				conditionList.add("仓库:不限");
+//				conditionList.add("出库单据");
+
+				startTxtView.setText(date1);
+				endTxtView.setText(date2);
+				cangkuTxtView.setText("不限");
+			}
+		}else{
+			sql = " where  " + DataBaseHelper.MVDT + ">='"+ date + "'  and " + DataBaseHelper.MVDT + "<='"+ date + "' order by lrsj desc ";
+			DJlist = dm_op.search_DJ(sql, str1);
+			
+//			conditionList.clear();
+//			conditionList.add(date1 + "至" + date2);
+//			conditionList.add("仓库:不限");
+//			mTagAdapter.setData(conditionList);
+			
+			startTxtView.setText(date1);
+			endTxtView.setText(date2);
+			cangkuTxtView.setText("不限");
+		}
+		
+		
+		mMyPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+		mViewPager.setAdapter(mMyPagerAdapter);
+		mPagerSlidingTabStrip.setViewPager(mViewPager);
+		mViewPager.setOffscreenPageLimit(3);
+		
+		setFragmentAdapter();
+		
+	}
+	
+	public void setFragmentAdapter(){
+		
+		noupdateList.clear();
+		completedUpdateList.clear();
+		unfinishedList.clear();
+		fragmentlist.clear();
+		
+		for (int i = 0; i < DJlist.size(); i++) {
+			if (Integer.parseInt(DJlist.get(i).get(DataBaseHelper.DJType).toString()) == -1) {
+				noupdateList.add(DJlist.get(i));
+			}else if(Integer.parseInt(DJlist.get(i).get(DataBaseHelper.DJType).toString()) == 1){
+				completedUpdateList.add(DJlist.get(i));
+			}else if(Integer.parseInt(DJlist.get(i).get(DataBaseHelper.DJType).toString()) == 0){
+				unfinishedList.add(DJlist.get(i));
+			}
+		}
+		
+		fragmentlist.add(new NoUpdateDJFragment().getInstance(noupdateList));
+		fragmentlist.add(new CompletedUpdateDJFragment().getInstance(completedUpdateList));
+		fragmentlist.add(new UnfinishedDJFragment().getInstance(unfinishedList));
+		mMyPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+		mViewPager.setAdapter(mMyPagerAdapter);
+		mPagerSlidingTabStrip.setViewPager(mViewPager);
+		mMyPagerAdapter.setData(fragmentlist);
+		setPageTitlesValue();
+	}
+	
+	/**
+	 * 设置Titile相关属性
+	 */
+	private void setPageTitlesValue() {
+		DisplayMetrics dm = getResources().getDisplayMetrics();
+		// 设置为true 均匀分配title位置
+		mPagerSlidingTabStrip.setShouldExpand(true);
+
+		mPagerSlidingTabStrip.setDividerColor(Color.TRANSPARENT);
+
+		//(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, dm)  将数值1转成dp为单位
+		//设置下划分割线高度
+		mPagerSlidingTabStrip.setUnderlineHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, dm)); 
+
+		//设置指示条高条
+		mPagerSlidingTabStrip.setIndicatorHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, dm));
+
+		//设置文本字大小
+		mPagerSlidingTabStrip.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 16, dm));
+
+		//设置指示条颜色
+		mPagerSlidingTabStrip.setIndicatorColor(Color.parseColor("#f5b53a"));
+
+		//设置选中文本颜色
+		mPagerSlidingTabStrip.setSelectedTextColor(Color.parseColor("#f5b53a"));
+
+		//设置Title背景颜色
+		mPagerSlidingTabStrip.setTabBackground(0);//android.R.color.darker_gray
+	}
+
+
+	
+	@Override
+	public void onClick(View v) {
+		// TODO 自动生成的方法存根
+		Intent intent = new Intent();
+		switch(v.getId()){
+		case R.id.back:
+			finish();
+			break;
+		case R.id.search:
+			intent.setClass(this, DJ_filterActivity.class);
+			startActivityForResult(intent, 1);
+			break;
+		}
+	}
+	
+	class MyPagerAdapter extends FragmentPagerAdapter{
+		
+		private List<Fragment> myList = new ArrayList<Fragment>();
+		
+		public MyPagerAdapter(FragmentManager fm) {
+			super(fm);
+			// TODO 自动生成的构造函数存根
+		}
+
+		public void setData(List<Fragment> myList){
+			this.myList = myList;
+			notifyDataSetChanged();
+		}
+		
+		@Override
+		public Fragment getItem(int arg0) {
+			// TODO 自动生成的方法存根
+			return myList.get(arg0);
+		}
+
+		@Override
+		public int getCount() {
+			// TODO 自动生成的方法存根
+			return myList.size();
+		}
+		
+		@Override
+		public CharSequence getPageTitle(int position) {
+			// TODO 自动生成的方法存根
+			return titleList.get(position);
+		}
+		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO 自动生成的方法存根
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 1) {
+			if (resultCode == 1) {
+//				conditionList.clear();
+				String sql = null;
+				String fromtime = data.getStringExtra("fromtime");
+				String totime = data.getStringExtra("totime");
+				sql = " where  " + DataBaseHelper.MVDT + ">='" + fromtime
+						+ "'  and " + DataBaseHelper.MVDT + "<='"
+						+ totime + "' ";
+//				conditionList.add(fromtime + "至" + totime);
+				startTxtView.setText(fromtime);
+				endTxtView.setText(totime);
+
+				int ckid = data.getIntExtra("ckid", -1);
+				String ckmc = data.getStringExtra("ckmc");
+				if (ckid != -1) {
+					sql = sql + " and " + DataBaseHelper.CKID + " = " + ckid
+							+ " ";
+//					conditionList.add("仓库:" + ckmc);
+					cangkuTxtView.setText(ckmc);
+				}
+
+				String wherestr = "";
+				if (data.getBooleanExtra("ruku_flag", false)) {
+					wherestr = " and (" + DataBaseHelper.mType + " = 1 ";
+					
+//					conditionList.add("入库单据");
+				}
+				if (data.getBooleanExtra("chuku_flag", false)) {
+					if (wherestr.equals("")) {
+						wherestr = " and (" + DataBaseHelper.mType + " = 2 ";
+						
+//						conditionList.add("出库单据");
+					} else {
+						wherestr = wherestr + " or " + DataBaseHelper.mType
+								+ " = 2 ";
+						
+//						conditionList.add("出库单据");
+					}
+				}
+				if (data.getBooleanExtra("pandian_flag", false)) {
+					if (wherestr.equals("")) {
+						wherestr = " and " + DataBaseHelper.mType + " = 0 ";
+						
+//						conditionList.add("盘点单据");
+					} else {
+						wherestr = wherestr + " or " + DataBaseHelper.mType
+								+ " = 0 )";
+						
+//						conditionList.add("盘点单据");
+					}
+				} else {
+					if (!wherestr.equals("")) {
+						wherestr = wherestr + " )";
+					}
+				}
+
+				String dh = data.getStringExtra("dh");
+				if (!dh.equals("不限")) {
+					sql = sql + " and " + DataBaseHelper.MVDH + " = '" + dh
+							+ "' ";
+					
+//					conditionList.add("单号:" + dh);
+				}
+
+				sql = sql + wherestr + " order by lrsj desc ";
+				
+				DJlist = dm_op.search_DJ(sql, str1);
+				
+				setFragmentAdapter();
+			}
+		}
+	}
+
+	@Override
+	public void execute() {
+		// TODO 自动生成的方法存根
+		DJlist = dm_op.search_DJ(sql, str1);
+		setFragmentAdapter();
+	}
+	
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+<typeInfo handle="=cangku/src&lt;com.guantang.cangkuonline.commonadapter{CommonAdapter.java[CommonAdapter" modifiers="1025" timestamp="1483080109604"/>
+<typeInfo handle="=cangku/src&lt;com.guantang.cangkuonline.XListView{XListView.java[XListView" modifiers="1" timestamp="1455697432000"/>
+<typeInfo handle="=无形最为致命/src&lt;com.example.Strategy_Pattern{Strategy.java[Strategy" modifiers="513" timestamp="1483582853590"/>
+<typeInfo handle="=无形最为致命/src&lt;com.example.State_Pattern{State.java[State" modifiers="513" timestamp="1483602989237"/>
+<typeInfo handle="=无形最为致命/src&lt;com.example.Factory_Pattern{Shape.java[Shape" modifiers="513" timestamp="1483607947477"/>
+<typeInfo handle="=无形最为致命/src&lt;com.example.AbstractFactory_Pattern{Shape.java[Shape" modifiers="513" timestamp="1483673578549"/>
+<typeInfo handle="=无形最为致命/src&lt;com.example.AbstractFactory_Pattern{Color.java[Color" modifiers="513" timestamp="1483673910733"/>
+<typeInfo handle="=无形最为致命/src&lt;com.example.AbstractFactory_Pattern{AbstractFactory.java[AbstractFactory" modifiers="1025" timestamp="1483682762209"/>
+<typeInfo handle="=无形最为致命/src&lt;com.example.Builder_Pattern{Packing.java[Packing" modifiers="513" timestamp="1483688467875"/>
+<typeInfo handle="=无形最为致命/src&lt;com.example.Builder_Pattern{Burger.java[Burger" modifiers="1025" timestamp="1483690774017"/>
+<typeInfo handle="=无形最为致命/src&lt;com.example.Builder_Pattern{ColdDrink.java[ColdDrink" modifiers="1025" timestamp="1483690779847"/>
+<typeInfo handle="=无形最为致命/src&lt;Decorator_Pattern{Shape.java[Shape" modifiers="513" timestamp="1484013971111"/>
+<typeInfo handle="=无形最为致命/src&lt;Decorator_Pattern{ShapeDecorator.java[ShapeDecorator" modifiers="1" timestamp="1484014742935"/>
+<typeInfo handle="=无形最为致命/src&lt;Facade_Pattern{Shape.java[Shape" modifiers="513" timestamp="1484038032190"/>
+<typeInfo handle="=无形最为致命/src&lt;Flyweight_Pattern{Shape.java[Shape" modifiers="513" timestamp="1484040538489"/>
+<typeInfo handle="=cangku/src&lt;com.guantang.cangkuonline.Jpushhlper{TagsInterface.java[TagsInterface" modifiers="513" timestamp="1487657138127"/>
+<typeInfo handle="=cangku/src&lt;com.guantang.cangkuonline.activity{NewLoginActivity.java[NewLoginActivity" modifiers="1" timestamp="1488786354347"/>
+</typeInfoHistroy>

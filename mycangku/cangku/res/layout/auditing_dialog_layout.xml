@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:background="@drawable/yuanjiao_beijing"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="审批"
+        android:textSize="18sp"
+        android:textColor="@color/ziti333333" />
+
+    <RadioGroup
+        android:id="@+id/myRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/passRadioBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@drawable/selector_radiobutton"
+            android:checked="true"
+            android:paddingLeft="8dp"
+            android:text="通过"
+            android:textColor="@color/ziti666666" />
+
+        <RadioButton
+            android:id="@+id/unpassRadioBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@drawable/selector_radiobutton"
+            android:paddingLeft="8dp"
+            android:text="未通过"
+            android:textColor="@color/ziti666666" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="审核意见"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/shenheEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/dare_edittext"
+        android:gravity="top"
+        android:hint="请输入审核意见，255字以内……"
+        android:lines="5"
+        android:maxLines="6"
+        android:padding="5dp"
+        android:textColor="@color/ziti666666"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginTop="6dp"
+        android:background="@color/theme_background_grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/cancelTxtView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="#007aff"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="2px"
+            android:layout_height="45dp"
+            android:background="@color/theme_background_grey" />
+
+        <TextView
+            android:id="@+id/confirmTxtView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="#007aff"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>
